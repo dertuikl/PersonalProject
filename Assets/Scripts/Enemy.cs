@@ -43,7 +43,8 @@ public class Enemy : MonoBehaviour
 
     public void Hit(float points)
     {
-        if(points > 0) {
+        //Debug.Log("hit: " + points);
+        if (points > 0) {
             currentHealth -= points;
             UpdateHealthSlider();
         }

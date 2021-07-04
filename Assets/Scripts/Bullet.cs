@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 20f;
-    [SerializeField] private float hitPoints = 18f;
+    private float moveSpeed = 20f;
+    private float hitPoints = 18f;
 
     private float xBound;
     private float zBound;
@@ -27,6 +27,12 @@ public class Bullet : MonoBehaviour
         if(transform.position.x < -xBound || transform.position.x > xBound || transform.position.z < -zBound || transform.position.z > zBound){
             gameObject.SetActive(false);
         }
+    }
+
+    public void SetStats(float moveSpeed, float hitPoints)
+    {
+        this.moveSpeed = moveSpeed;
+        this.hitPoints = hitPoints;
     }
 
     private void OnTriggerEnter(Collider other)

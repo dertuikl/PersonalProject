@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 
     public Action OnKill;
 
-    [SerializeField] private float startShootDelay = 0.5f;
+    [SerializeField] private float startAttackSpeed = 20f;
     [SerializeField] private float startBulletSpeed = 20f;
     [SerializeField] private float startBulletDamage = 18f;
     [SerializeField] private int maxHealth = 9;
@@ -18,17 +18,26 @@ public class PlayerController : MonoBehaviour
 
     private Enemy target;
 
-    private float currentShootDelay = 0.5f;
-    private float currentBulletSpeed = 20f;
-    private float currentBulletDamage = 18f;
+    private float currentAttackSpeed;
+    // TODO: might be moved to weapon class
+    private float currentWeaponSpeed;
+    private float currentWeaponDamage;
+    //
     private int currentHealth;
     private int currentScore;
     private Pool<Bullet> bulletsPool;
 
+    private float shootDelay => 10 / currentAttackSpeed;
+
     private void Start()
     {
+        currentAttackSpeed = startAttackSpeed;
+        currentWeaponSpeed = startBulletSpeed;
+        currentWeaponDamage = startBulletDamage;
+
         currentHealth = maxHealth;
         currentScore = 0;
+
         bulletsPool = new Pool<Bullet>(bulletPRefab, Instantiate);
 
         StartCoroutine(ShootCor());
@@ -65,7 +74,7 @@ public class PlayerController : MonoBehaviour
                 Shoot();
             }
 
-            yield return new WaitForSeconds(startShootDelay);
+            yield return new WaitForSeconds(shootDelay);
         }
     }
 
@@ -75,6 +84,7 @@ public class PlayerController : MonoBehaviour
         newBullet.gameObject.SetActive(true);
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.rotation;
+        newBullet.SetStats(currentWeaponSpeed, currentWeaponDamage);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -101,5 +111,37 @@ public class PlayerController : MonoBehaviour
         enemy.OnKill -= OnKillEnemy;
         currentScore += enemy.KillScore;
         Debug.Log("player's score: " + currentScore);
+    }
+
+    public void UpdateAttackSpeed(float multiplier)
+    {
+        if(multiplier > 0) {
+            currentAttackSpeed *= multiplier;
+            LogStats();
+        }
+    }
+
+    public void UpdateWeaponSpeed(float multiplier)
+    {
+        if (multiplier > 0) {
+            currentWeaponSpeed *= multiplier;
+            LogStats();
+        }
+    }
+
+    public void UpdateWeaponDamage(float multiplier)
+    {
+        if (multiplier > 0) {
+            currentWeaponDamage *= multiplier;
+            LogStats();
+        }
+    }
+
+    private void LogStats()
+    {
+        Debug.Log("stats updated: \n" +
+                  "attack speed: " + currentAttackSpeed + "\n" +
+                  "weapon speed: " + currentWeaponSpeed + "\n" +
+                  "weapon damage: " + currentWeaponDamage);
     }
 }
