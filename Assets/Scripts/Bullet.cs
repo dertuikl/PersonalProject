@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed;
+    [SerializeField] private float moveSpeed = 20f;
+    [SerializeField] private float hitPoints = 18f;
 
     private float xBound;
     private float zBound;
@@ -28,10 +29,10 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Enemy>()) {
-            Debug.Log("Bullet hitted enemy " + other.gameObject.name);
+        Enemy enemy = other.GetComponent<Enemy>();
+        if (enemy) {
+            enemy.Hit(hitPoints);
+            Destroy(gameObject);
         }
-
-        Destroy(gameObject);
     }
 }
