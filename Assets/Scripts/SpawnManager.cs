@@ -13,12 +13,16 @@ public class SpawnManager : MonoBehaviour
     private float xBound;
     private float zBound;
 
+    private Pool<Enemy> enemiesPool;
+
     public List<Enemy> Enemies { get; private set; } = new List<Enemy>();
 
     private void Start()
     {
         xBound = GameController.Instance.ViewWorldBounds.x - 2;
         zBound = GameController.Instance.ViewWorldBounds.y - 2;
+
+        enemiesPool = new Pool<Enemy>(enemyPrefab, Instantiate);
 
         StartCoroutine(SpawnEnemies());
         StartCoroutine(SpawnPowerups());
@@ -28,7 +32,9 @@ public class SpawnManager : MonoBehaviour
     {
         while (true) {
             if (GameController.Instance.GameIsActive) {
-                Enemy enemy = Instantiate(enemyPrefab, GetRandomPosition(), enemyPrefab.transform.rotation);
+                Enemy enemy = enemiesPool.GetPooledObject();
+                enemy.gameObject.SetActive(true);
+                enemy.transform.position = GetRandomPosition();
                 enemy.OnKill += OnKillEnemy;
                 Enemies.Add(enemy);
             }
@@ -58,6 +64,7 @@ public class SpawnManager : MonoBehaviour
 
     private void OnKillEnemy(Enemy enemy)
     {
+        enemy.OnKill -= OnKillEnemy;
         Enemies.Remove(enemy);
     }
 }

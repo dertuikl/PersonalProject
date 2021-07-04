@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
 
     private PlayerController player => GameController.Instance.Player;
 
-    private void Start()
+    private void OnEnable()
     {
         currentHealth = maxHealth;
         healthSlider.maxValue = maxHealth;
@@ -48,7 +48,7 @@ public class Enemy : MonoBehaviour
 
         if(currentHealth <= 0) {
             OnKill?.Invoke(this);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 

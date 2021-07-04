@@ -20,10 +20,12 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+        if (gameObject.activeInHierarchy) {
+            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+        }
 
         if(transform.position.x < -xBound || transform.position.x > xBound || transform.position.z < -zBound || transform.position.z > zBound){
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
@@ -32,7 +34,7 @@ public class Bullet : MonoBehaviour
         Enemy enemy = other.GetComponent<Enemy>();
         if (enemy) {
             enemy.Hit(hitPoints);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

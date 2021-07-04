@@ -16,10 +16,12 @@ public class PlayerController : MonoBehaviour
 
     private Enemy target;
     private int currentHealth;
+    private Pool<Bullet> bulletsPool;
 
     private void Start()
     {
         currentHealth = maxHealth;
+        bulletsPool = new Pool<Bullet>(bulletPRefab, Instantiate);
 
         StartCoroutine(ShootCor());
     }
@@ -57,7 +59,10 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot()
     {
-        Instantiate(bulletPRefab, transform.position, transform.rotation); ;
+        Bullet newBullet = bulletsPool.GetPooledObject();
+        newBullet.gameObject.SetActive(true);
+        newBullet.transform.position = transform.position;
+        newBullet.transform.rotation = transform.rotation;
     }
 
     private void OnTriggerEnter(Collider other)
