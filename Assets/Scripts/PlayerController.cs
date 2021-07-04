@@ -10,11 +10,17 @@ public class PlayerController : MonoBehaviour
 
     public Action OnKill;
 
-    [SerializeField] private float shootDelay = 0.5f;
+    [SerializeField] private float startShootDelay = 0.5f;
+    [SerializeField] private float startBulletSpeed = 20f;
+    [SerializeField] private float startBulletDamage = 18f;
     [SerializeField] private int maxHealth = 9;
     [SerializeField] private Bullet bulletPRefab;
 
     private Enemy target;
+
+    private float currentShootDelay = 0.5f;
+    private float currentBulletSpeed = 20f;
+    private float currentBulletDamage = 18f;
     private int currentHealth;
     private int currentScore;
     private Pool<Bullet> bulletsPool;
@@ -59,7 +65,7 @@ public class PlayerController : MonoBehaviour
                 Shoot();
             }
 
-            yield return new WaitForSeconds(shootDelay);
+            yield return new WaitForSeconds(startShootDelay);
         }
     }
 
@@ -76,14 +82,13 @@ public class PlayerController : MonoBehaviour
         if (other.GetComponent<Enemy>()) {
             UpdateHealth(-1);
         } else if (other.GetComponent<Powerup>()) {
-            Debug.Log("player hit powerup " + other.gameObject.name);
-            Destroy(other.gameObject);
+            other.GetComponent<Powerup>().Use(this);
         }
     }
 
     public void UpdateHealth(int points)
     {
-        currentHealth += points;
+        currentHealth = Mathf.Clamp(currentHealth + points, 0, maxHealth);
         Debug.Log("player's health: " + currentHealth + "/" + maxHealth);
         if(currentHealth <= 0) {
             OnKill();

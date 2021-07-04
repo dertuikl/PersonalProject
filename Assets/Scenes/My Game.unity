@@ -340,9 +340,8 @@ MonoBehaviour:
   powerupsSpawnDelay: 15
   enemyPrefab: {fileID: 7754589790443064974, guid: 622a4b788be824e098f9bfac9dfb3ae8,
     type: 3}
-  powerupPrefab: {fileID: 3711095184614856766, guid: b4e2621bb1a9b46deaf3f90efe6425d5,
-    type: 3}
-  enemies: []
+  powerupPrefabs:
+  - {fileID: 3711095184614856766, guid: b4e2621bb1a9b46deaf3f90efe6425d5, type: 3}
 --- !u!4 &961910261
 Transform:
   m_ObjectHideFlags: 0
@@ -469,6 +468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9cd257a62be84ded961912009002aa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameIsActive: 0
   playerPRefab: {fileID: 9088549519073752032, guid: 6dd62a1a4e17e4874b7c71eaf666b7c5,
     type: 3}
 --- !u!4 &1488356968

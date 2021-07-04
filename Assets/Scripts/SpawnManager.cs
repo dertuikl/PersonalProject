@@ -8,7 +8,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float powerupsSpawnDelay = 5.0f;
 
     [SerializeField] private Enemy enemyPrefab;
-    [SerializeField] private Powerup powerupPrefab;
+    [SerializeField] private List<Powerup> powerupPrefabs;
 
     private float xBound;
     private float zBound;
@@ -47,8 +47,10 @@ public class SpawnManager : MonoBehaviour
     {
         while (true)
         {
+            int index = Random.Range(0, powerupPrefabs.Count);
+
             if (GameController.Instance.GameIsActive) {
-                Instantiate(powerupPrefab, GetRandomPosition(), powerupPrefab.transform.rotation);
+                Instantiate(powerupPrefabs[index], GetRandomPosition(), powerupPrefabs[index].transform.rotation);
             }
 
             yield return new WaitForSeconds(powerupsSpawnDelay);
