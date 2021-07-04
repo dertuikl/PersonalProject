@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerController))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed = 10.0f;
@@ -10,12 +11,14 @@ public class PlayerMovement : MonoBehaviour
     private float xBound;
     private float zBound;
     private CharacterController controller;
+    private PlayerController playerController;
 
     private float objectWidth => controller.radius * 2;
 
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+        playerController = GetComponent<PlayerController>();
 
         xBound = GameController.Instance.ViewWorldBounds.x - objectWidth;
         zBound = GameController.Instance.ViewWorldBounds.y - objectWidth;
@@ -35,9 +38,12 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveVector = new Vector3(horizontalInput, 0, verticalInput);
         controller.Move(moveVector * speed * Time.deltaTime);
 
-        if (Vector3.Angle(Vector3.forward, moveVector) > 1f || Vector3.Angle(Vector3.forward, moveVector) == 0) {
-            Vector3 newDirection = Vector3.RotateTowards(transform.forward, moveVector * speed, turnSpeed, 0.0f);
-            transform.rotation = Quaternion.LookRotation(newDirection);
+        if (!playerController.IsShooting) {
+            float rotationAngle = Vector3.Angle(Vector3.forward, moveVector);
+            if (rotationAngle > 1f || rotationAngle == 0) {
+                Vector3 newDirection = Vector3.RotateTowards(transform.forward, moveVector * speed, turnSpeed, 0.0f);
+                transform.rotation = Quaternion.LookRotation(newDirection);
+            }
         }
     }
 
