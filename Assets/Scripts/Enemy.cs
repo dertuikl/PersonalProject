@@ -10,12 +10,14 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private float moveSpeed;
     [SerializeField] private int maxHealth = 100;
+    [SerializeField] private int killScore = 1;
 
     [SerializeField] private Transform body;
     [SerializeField] private Slider healthSlider;
 
     private float currentHealth;
 
+    public int KillScore => killScore;
     private PlayerController player => GameController.Instance.Player;
 
     private void OnEnable()

@@ -16,11 +16,13 @@ public class PlayerController : MonoBehaviour
 
     private Enemy target;
     private int currentHealth;
+    private int currentScore;
     private Pool<Bullet> bulletsPool;
 
     private void Start()
     {
         currentHealth = maxHealth;
+        currentScore = 0;
         bulletsPool = new Pool<Bullet>(bulletPRefab, Instantiate);
 
         StartCoroutine(ShootCor());
@@ -42,6 +44,10 @@ public class PlayerController : MonoBehaviour
         List<Enemy> enemiesOnField = GameController.Instance.EnemiesOnField;
         if(enemiesOnField.Count > 0) {
             enemiesOnField = enemiesOnField.OrderBy(e => Vector3.Distance(e.transform.position, transform.position)).ToList();
+            if (target && target != enemiesOnField[0]) {
+                target.OnKill -= OnKillEnemy;
+                enemiesOnField[0].OnKill += OnKillEnemy;
+            }
             target = enemiesOnField[0];
         }
     }
@@ -83,5 +89,12 @@ public class PlayerController : MonoBehaviour
             OnKill();
             Destroy(gameObject);
         }
+    }
+
+    private void OnKillEnemy(Enemy enemy)
+    {
+        enemy.OnKill -= OnKillEnemy;
+        currentScore += enemy.KillScore;
+        Debug.Log("player's score: " + currentScore);
     }
 }
