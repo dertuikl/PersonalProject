@@ -8,32 +8,37 @@ public class PlayerController : MonoBehaviour
     public bool IsShooting { get; private set; }
 
     [SerializeField] private float shootDelay = 0.5f;
+    [SerializeField] private int maxHealth = 9;
     [SerializeField] private Bullet bulletPRefab;
 
     private Enemy target;
+    private int currentHealth;
 
     private void Start()
     {
+        currentHealth = maxHealth;
+
         StartCoroutine(ShootCor());
     }
 
     private void Update()
     {
-        if(target == null) {
-            // TODO: replace with less weight logic
-            // TODO: move to spawn manager (?)
-            List<Enemy> enemiesOnField = FindObjectsOfType<Enemy>().ToList();
-            if(enemiesOnField.Count > 0) {
-                enemiesOnField.OrderBy(e => Vector3.Distance(e.transform.position, transform.position));
-                target = enemiesOnField.First();
-            }
-        }
+        UpdateTarget();
 
         if (target) {
             transform.LookAt(target.transform);
         }
 
         IsShooting = target;
+    }
+
+    private void UpdateTarget()
+    {
+        List<Enemy> enemiesOnField = GameController.Instance.EnemiesOnField;
+        if(enemiesOnField.Count > 0) {
+            enemiesOnField = enemiesOnField.OrderBy(e => Vector3.Distance(e.transform.position, transform.position)).ToList();
+            target = enemiesOnField[0];
+        }
     }
 
     private IEnumerator ShootCor()
@@ -56,10 +61,16 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Enemy>()) {
-            Debug.Log("Player hit enemy " + other.gameObject.name);
+            UpdateHealth(-1);
         } else if (other.GetComponent<Powerup>()) {
             Debug.Log("player hit powerup " + other.gameObject.name);
             Destroy(other.gameObject);
         }
+    }
+
+    public void UpdateHealth(int points)
+    {
+        currentHealth += points;
+        Debug.Log("player's health: " + currentHealth + "/" + maxHealth);
     }
 }

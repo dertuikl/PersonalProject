@@ -11,14 +11,18 @@ public class GameController : MonoBehaviour
     [SerializeField] private PlayerController playerPRefab;
 
     private PlayerController player;
+    private SpawnManager spawnManager;
 
     public PlayerController Player => player;
+    public List<Enemy> EnemiesOnField => spawnManager.Enemies;
 
     private void Awake()
     {
         if(Instance == null) {
             Instance = this;
         }
+
+        spawnManager = FindObjectOfType<SpawnManager>();
 
         CalculateViewWorldBounds();
     }

@@ -13,6 +13,8 @@ public class SpawnManager : MonoBehaviour
     private float xBound;
     private float zBound;
 
+    public List<Enemy> Enemies { get; private set; } = new List<Enemy>();
+
     private void Start()
     {
         xBound = GameController.Instance.ViewWorldBounds.x - 2;
@@ -25,7 +27,9 @@ public class SpawnManager : MonoBehaviour
     private IEnumerator SpawnEnemies()
     {
         while (true) {
-            Instantiate(enemyPrefab, GetRandomPosition(), enemyPrefab.transform.rotation);
+            Enemy enemy = Instantiate(enemyPrefab, GetRandomPosition(), enemyPrefab.transform.rotation);
+            enemy.OnKill += OnKillEnemy;
+            Enemies.Add(enemy);
 
             yield return new WaitForSeconds(enemiesSpawnDelay);
         }
@@ -46,5 +50,10 @@ public class SpawnManager : MonoBehaviour
         float xPosition = Random.Range(-xBound, xBound);
         float zPosition = Random.Range(-zBound, zBound);
         return new Vector3(xPosition, 0.5f, zPosition);
+    }
+
+    private void OnKillEnemy(Enemy enemy)
+    {
+        Enemies.Remove(enemy);
     }
 }

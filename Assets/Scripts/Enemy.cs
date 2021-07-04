@@ -1,16 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
+    public Action<Enemy> OnKill;
+
     [SerializeField] private float moveSpeed;
     [SerializeField] private int maxHealth = 100;
 
     [SerializeField] private Transform body;
     [SerializeField] private Slider healthSlider;
-
 
     private float currentHealth;
 
@@ -45,7 +47,7 @@ public class Enemy : MonoBehaviour
         }
 
         if(currentHealth <= 0) {
-            Debug.Log("enemy killed");
+            OnKill?.Invoke(this);
             Destroy(gameObject);
         }
     }
