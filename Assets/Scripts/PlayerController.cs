@@ -2,6 +2,8 @@
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private Bullet bulletPRefab;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Enemy>()) {

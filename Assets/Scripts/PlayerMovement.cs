@@ -14,9 +14,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        // TODO: unify place where we access this data
-        xBound = 1 / (Camera.main.WorldToViewportPoint(new Vector3(1, 0, 1)).x - 0.5f) / 2 - objectWidth;
-        zBound = 1 / (Camera.main.WorldToViewportPoint(new Vector3(1, 0, 1)).y - 0.5f) / 2 - objectWidth;
+        xBound = GameController.Instance.ViewWorldBounds.x - objectWidth;
+        zBound = GameController.Instance.ViewWorldBounds.y - objectWidth;
     }
 
     private void Update()

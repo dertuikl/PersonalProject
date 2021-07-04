@@ -6,6 +6,8 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance;
 
+    public Vector2 ViewWorldBounds { get; private set; }
+
     [SerializeField] private PlayerController playerPRefab;
 
     private PlayerController player;
@@ -17,6 +19,8 @@ public class GameController : MonoBehaviour
         if(Instance == null) {
             Instance = this;
         }
+
+        CalculateViewWorldBounds();
     }
 
     private void Start()
@@ -27,5 +31,12 @@ public class GameController : MonoBehaviour
     private void StartGame()
     {
         player = Instantiate(playerPRefab);
+    }
+
+    private void CalculateViewWorldBounds()
+    {
+        float xBound = 1 / (Camera.main.WorldToViewportPoint(new Vector3(1, 0, 1)).x - 0.5f) / 2;
+        float yBound = 1 / (Camera.main.WorldToViewportPoint(new Vector3(1, 0, 1)).y - 0.5f) / 2;
+        ViewWorldBounds = new Vector2(xBound, yBound);
     }
 }

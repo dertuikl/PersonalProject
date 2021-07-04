@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9088549519073752043}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &9088549519073752045
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -124,8 +124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aecc8af14aa9242bf81e6ef35b0f4427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  turnSpeed: 50
+  bulletPRefab: {fileID: 6240812417758117839, guid: bbbea2aacff6a4559b90963d597ff2cf,
+    type: 3}
 --- !u!114 &7799640770000021582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,3 +138,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6126b95d8bc8a4f8d86b457fc71a7a63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 10
+  turnSpeed: 25
