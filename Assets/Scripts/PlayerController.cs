@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public bool IsShooting { get; private set; }
+
+    public Action OnKill;
 
     [SerializeField] private float shootDelay = 0.5f;
     [SerializeField] private int maxHealth = 9;
@@ -43,9 +46,8 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator ShootCor()
     {
-        // TODO: while !gameOver or smth
         while (true) {
-            if (IsShooting) {
+            if (IsShooting && GameController.Instance.GameIsActive) {
                 Shoot();
             }
 
@@ -72,5 +74,9 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth += points;
         Debug.Log("player's health: " + currentHealth + "/" + maxHealth);
+        if(currentHealth <= 0) {
+            OnKill();
+            Destroy(gameObject);
+        }
     }
 }

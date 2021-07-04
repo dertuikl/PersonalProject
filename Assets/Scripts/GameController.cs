@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance;
 
+    public bool GameIsActive;
     public Vector2 ViewWorldBounds { get; private set; }
 
     [SerializeField] private PlayerController playerPRefab;
@@ -35,6 +36,8 @@ public class GameController : MonoBehaviour
     private void StartGame()
     {
         player = Instantiate(playerPRefab);
+        player.OnKill += () => GameIsActive = false;
+        GameIsActive = true;
     }
 
     private void CalculateViewWorldBounds()

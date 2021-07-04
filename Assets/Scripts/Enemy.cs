@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (player) {
+        if (player && GameController.Instance.GameIsActive) {
             MoveToPlayer();
         }
     }

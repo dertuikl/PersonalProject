@@ -27,9 +27,11 @@ public class SpawnManager : MonoBehaviour
     private IEnumerator SpawnEnemies()
     {
         while (true) {
-            Enemy enemy = Instantiate(enemyPrefab, GetRandomPosition(), enemyPrefab.transform.rotation);
-            enemy.OnKill += OnKillEnemy;
-            Enemies.Add(enemy);
+            if (GameController.Instance.GameIsActive) {
+                Enemy enemy = Instantiate(enemyPrefab, GetRandomPosition(), enemyPrefab.transform.rotation);
+                enemy.OnKill += OnKillEnemy;
+                Enemies.Add(enemy);
+            }
 
             yield return new WaitForSeconds(enemiesSpawnDelay);
         }
@@ -39,7 +41,9 @@ public class SpawnManager : MonoBehaviour
     {
         while (true)
         {
-            Instantiate(powerupPrefab, GetRandomPosition(), powerupPrefab.transform.rotation);
+            if (GameController.Instance.GameIsActive) {
+                Instantiate(powerupPrefab, GetRandomPosition(), powerupPrefab.transform.rotation);
+            }
 
             yield return new WaitForSeconds(powerupsSpawnDelay);
         }
