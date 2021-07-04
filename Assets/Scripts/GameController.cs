@@ -36,7 +36,7 @@ public class GameController : MonoBehaviour
     private void StartGame()
     {
         player = Instantiate(playerPRefab);
-        player.OnKill += () => GameIsActive = false;
+        player.OnKill += GameOver;
         GameIsActive = true;
     }
 
@@ -45,5 +45,17 @@ public class GameController : MonoBehaviour
         float xBound = 1 / (Camera.main.WorldToViewportPoint(new Vector3(1, 0, 1)).x - 0.5f) / 2;
         float yBound = 1 / (Camera.main.WorldToViewportPoint(new Vector3(1, 0, 1)).y - 0.5f) / 2;
         ViewWorldBounds = new Vector2(xBound, yBound);
+    }
+
+    public void GameOver()
+    {
+        Debug.Log("Game Over!");
+        GameIsActive = false;
+    }
+
+    public void GameWon(Enemy enemy)
+    {
+        Debug.Log("Game Won!");
+        GameIsActive = false;
     }
 }

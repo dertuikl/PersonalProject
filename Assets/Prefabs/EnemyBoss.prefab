@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 425357695813136912}
   - component: {fileID: 464706831858713276}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: EnemyBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,7 +102,7 @@ Transform:
   m_GameObject: {fileID: 425357695813136913}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 3850327965890605789}
   - {fileID: 2340566219561508444}
@@ -121,9 +121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db68ef4b17e948d787e7cf932efef7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.5
-  maxHealth: 100
-  killScore: 1
+  moveSpeed: 7.5
+  maxHealth: 1000
+  killScore: 100
   body: {fileID: 3850327965890605789}
   healthSlider: {fileID: 8933265932613190565}
 --- !u!65 &425357695813136912

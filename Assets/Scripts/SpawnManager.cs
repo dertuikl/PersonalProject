@@ -8,12 +8,16 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float powerupsSpawnDelay = 5.0f;
 
     [SerializeField] private Enemy enemyPrefab;
+    [SerializeField] private Enemy bossPrefab;
     [SerializeField] private List<Powerup> powerupPrefabs;
 
     private float xBound;
     private float zBound;
 
     private Pool<Enemy> enemiesPool;
+
+    private bool isBossWave;
+    private bool skipFirstSpawn;
 
     public List<Enemy> Enemies { get; private set; } = new List<Enemy>();
 
@@ -24,6 +28,8 @@ public class SpawnManager : MonoBehaviour
 
         enemiesPool = new Pool<Enemy>(enemyPrefab, Instantiate);
 
+        isBossWave = false;
+
         StartCoroutine(SpawnEnemies());
         StartCoroutine(SpawnPowerups());
     }
@@ -31,16 +37,30 @@ public class SpawnManager : MonoBehaviour
     private IEnumerator SpawnEnemies()
     {
         while (true) {
-            if (GameController.Instance.GameIsActive) {
-                Enemy enemy = enemiesPool.GetPooledObject();
-                enemy.gameObject.SetActive(true);
-                enemy.transform.position = GetRandomPosition();
-                enemy.OnKill += OnKillEnemy;
-                Enemies.Add(enemy);
+            if (GameController.Instance.GameIsActive && !isBossWave) {
+                if (Enemies.Count == 0 && skipFirstSpawn) {
+                    isBossWave = true;
+                    SpawnBoss();
+                } else {
+                    Enemy enemy = enemiesPool.GetPooledObject();
+                    enemy.gameObject.SetActive(true);
+                    enemy.transform.position = GetRandomPosition();
+                    enemy.OnKill += OnKillEnemy;
+                    Enemies.Add(enemy);
+
+                    skipFirstSpawn = true;
+                }
             }
 
             yield return new WaitForSeconds(enemiesSpawnDelay);
         }
+    }
+
+    private void SpawnBoss()
+    {
+        Enemy boss = Instantiate(bossPrefab, GetRandomPosition(), bossPrefab.transform.rotation);
+        boss.OnKill += GameController.Instance.GameWon;
+        Enemies.Add(boss);
     }
 
     private IEnumerator SpawnPowerups()
