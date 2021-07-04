@@ -9,11 +9,14 @@ public class PlayerMovement : MonoBehaviour
 
     private float xBound;
     private float zBound;
+    private CharacterController controller;
 
-    private float objectWidth => GetComponent<SphereCollider>().radius * 2;
+    private float objectWidth => controller.radius * 2;
 
     private void Start()
     {
+        controller = GetComponent<CharacterController>();
+
         xBound = GameController.Instance.ViewWorldBounds.x - objectWidth;
         zBound = GameController.Instance.ViewWorldBounds.y - objectWidth;
     }
@@ -30,8 +33,12 @@ public class PlayerMovement : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 moveVector = new Vector3(horizontalInput, 0, verticalInput);
-        transform.Translate(moveVector * Time.deltaTime * speed);
-        //transform.Rotate(Vector3.up, horizontalInput * Time.deltaTime * turnSpeed);
+        controller.Move(moveVector * speed * Time.deltaTime);
+
+        if (Vector3.Angle(Vector3.forward, moveVector) > 1f || Vector3.Angle(Vector3.forward, moveVector) == 0) {
+            Vector3 newDirection = Vector3.RotateTowards(transform.forward, moveVector * speed, turnSpeed, 0.0f);
+            transform.rotation = Quaternion.LookRotation(newDirection);
+        }
     }
 
     private void ConstrainPlayerPosition()

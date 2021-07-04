@@ -19,5 +19,6 @@ public class Enemy : MonoBehaviour
     {
         Vector3 moveDirection = (player.transform.position - transform.position).normalized;
         transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+        transform.LookAt(player.transform);
     }
 }
