@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    [SerializeField] private GameObject menuScreen;
     [SerializeField] private GameObject gameScreen;
     [SerializeField] private GameObject pauseScreen;
 
@@ -32,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     public void OpenMenuScreen()
     {
-        Debug.Log("Open menu screen");
+        ChangeScreen(menuScreen);
     }
 
     //TODO: not in current submission

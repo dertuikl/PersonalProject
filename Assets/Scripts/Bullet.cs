@@ -20,7 +20,7 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        if (gameObject.activeInHierarchy) {
+        if (gameObject.activeInHierarchy && GameController.Instance.GameIsActive) {
             transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
         }
 

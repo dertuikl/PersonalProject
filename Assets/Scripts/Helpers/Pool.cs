@@ -25,4 +25,6 @@ public class Pool<T> where T : MonoBehaviour
 
         return obj;
     }
+
+    public void DisableAllObjects() => pool.ForEach(o => o.gameObject.SetActive(false));
 }

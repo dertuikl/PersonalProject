@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,8 +37,10 @@ public class SpawnManager : MonoBehaviour
     {
         isBossWave = false;
         skipFirstSpawn = false;
-        Enemies.ForEach(e => e.gameObject.SetActive(false));
+        enemiesPool.DisableAllObjects();
         Enemies.Clear();
+        // TODO: replace with powerups pool
+        FindObjectsOfType<Powerup>().ToList().ForEach(p => Destroy(p.gameObject));
 
         StopAllCoroutines();
 
