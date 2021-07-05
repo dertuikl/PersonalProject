@@ -33,6 +33,17 @@ public class GameController : MonoBehaviour
         StartGame();
     }
 
+    public void RestartGame()
+    {
+        if (player) {
+            Destroy(player.gameObject);
+            player = null;
+        }
+        spawnManager.Restart();
+        UserData.ResetCurrentGameData();
+        StartGame();
+    }
+
     private void StartGame()
     {
         player = Instantiate(playerPRefab);
@@ -50,12 +61,17 @@ public class GameController : MonoBehaviour
     public void GameOver()
     {
         Debug.Log("Game Over!");
+        player.OnKill -= GameOver;
         GameIsActive = false;
+
+        GameManager.Instance.ShowGameOverScreen();
     }
 
     public void GameWon(Enemy enemy)
     {
         Debug.Log("Game Won!");
         GameIsActive = false;
+
+        GameManager.Instance.ShowGameWonScreen();
     }
 }

@@ -6,6 +6,7 @@ public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private float enemiesSpawnDelay = 3.0f;
     [SerializeField] private float powerupsSpawnDelay = 5.0f;
+    [SerializeField] private float startPowerupsSpawnDelay = 2.0f;
 
     [SerializeField] private Enemy enemyPrefab;
     [SerializeField] private Enemy bossPrefab;
@@ -28,7 +29,17 @@ public class SpawnManager : MonoBehaviour
 
         enemiesPool = new Pool<Enemy>(enemyPrefab, Instantiate);
 
+        Restart();
+    }
+
+    public void Restart()
+    {
         isBossWave = false;
+        skipFirstSpawn = false;
+        Enemies.ForEach(e => e.gameObject.SetActive(false));
+        Enemies.Clear();
+
+        StopAllCoroutines();
 
         StartCoroutine(SpawnEnemies());
         StartCoroutine(SpawnPowerups());
@@ -65,8 +76,9 @@ public class SpawnManager : MonoBehaviour
 
     private IEnumerator SpawnPowerups()
     {
-        while (true)
-        {
+        yield return new WaitForSeconds(startPowerupsSpawnDelay);
+
+        while (true) {
             int index = Random.Range(0, powerupPrefabs.Count);
 
             if (GameController.Instance.GameIsActive) {

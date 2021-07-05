@@ -110,6 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   impactValue: 1.1
   rotateSpeed: 100
+  spawnAnimationTime: 0.3
 --- !u!1 &4503880040602070892
 GameObject:
   m_ObjectHideFlags: 0

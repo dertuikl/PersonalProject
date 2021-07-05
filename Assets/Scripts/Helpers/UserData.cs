@@ -56,5 +56,14 @@ public static class UserData
 
     public static void ShowShootingStatsToggle() => ShowShootingStats = !ShowShootingStats;
 
+    public static void ResetCurrentGameData()
+    {
+        Health = MaxHealth;
+        Score = 0;
+        AttackSpeed = 20f;
+        WeaponSpeed = 20f;
+        WeaponDamage = 18f;
+    }
+
     #endregion
 }

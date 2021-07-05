@@ -23,6 +23,12 @@ public class GameScreen : MonoBehaviour
     {
         statsViews.ForEach(v => v.Refresh());
     }
+
+    public void OnClickPauseButton()
+    {
+        GameController.Instance.GameIsActive = false;
+        GameManager.Instance.OpenPauseScreen();
+    }
 }
 
 public abstract class StatView : MonoBehaviour
