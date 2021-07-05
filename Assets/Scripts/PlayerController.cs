@@ -10,34 +10,19 @@ public class PlayerController : MonoBehaviour
 
     public Action OnKill;
 
-    [SerializeField] private float startAttackSpeed = 20f;
-    [SerializeField] private float startBulletSpeed = 20f;
-    [SerializeField] private float startBulletDamage = 18f;
-    [SerializeField] private int maxHealth = 9;
     [SerializeField] private Bullet bulletPRefab;
 
     private Enemy target;
-
-    private float currentAttackSpeed;
-    // TODO: might be moved to weapon class
-    private float currentWeaponSpeed;
-    private float currentWeaponDamage;
-    //
-    private int currentHealth;
-    private int currentScore;
     private Pool<Bullet> bulletsPool;
 
-    private float shootDelay => 10 / currentAttackSpeed;
+    private int health => UserData.Health;
+    private float attackSpeed => UserData.AttackSpeed;
+    private float weaponSpeed => UserData.WeaponSpeed;
+    private float weaponDamage => UserData.WeaponDamage;
+    private float shootDelay => 10 / attackSpeed;
 
     private void Start()
     {
-        currentAttackSpeed = startAttackSpeed;
-        currentWeaponSpeed = startBulletSpeed;
-        currentWeaponDamage = startBulletDamage;
-
-        currentHealth = maxHealth;
-        currentScore = 0;
-
         bulletsPool = new Pool<Bullet>(bulletPRefab, Instantiate);
 
         StartCoroutine(ShootCor());
@@ -84,7 +69,7 @@ public class PlayerController : MonoBehaviour
         newBullet.gameObject.SetActive(true);
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.rotation;
-        newBullet.SetStats(currentWeaponSpeed, currentWeaponDamage);
+        newBullet.SetStats(weaponSpeed, weaponDamage);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -98,9 +83,8 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateHealth(int points)
     {
-        currentHealth = Mathf.Clamp(currentHealth + points, 0, maxHealth);
-        Debug.Log("player's health: " + currentHealth + "/" + maxHealth);
-        if(currentHealth <= 0) {
+        UserData.SetPlayerHealth(health + points);
+        if(health <= 0) {
             OnKill();
             Destroy(gameObject);
         }
@@ -109,39 +93,27 @@ public class PlayerController : MonoBehaviour
     private void OnKillEnemy(Enemy enemy)
     {
         enemy.OnKill -= OnKillEnemy;
-        currentScore += enemy.KillScore;
-        Debug.Log("player's score: " + currentScore);
+        UserData.SetPlayerScore(enemy.KillScore);
     }
 
     public void UpdateAttackSpeed(float multiplier)
     {
         if(multiplier > 0) {
-            currentAttackSpeed *= multiplier;
-            LogStats();
+            UserData.SetAttackSpeed(attackSpeed * multiplier);
         }
     }
 
     public void UpdateWeaponSpeed(float multiplier)
     {
         if (multiplier > 0) {
-            currentWeaponSpeed *= multiplier;
-            LogStats();
+            UserData.SetWeaponSpeed(weaponSpeed * multiplier);
         }
     }
 
     public void UpdateWeaponDamage(float multiplier)
     {
         if (multiplier > 0) {
-            currentWeaponDamage *= multiplier;
-            LogStats();
+            UserData.SetWeaponDamage(weaponDamage * multiplier);
         }
-    }
-
-    private void LogStats()
-    {
-        Debug.Log("stats updated: \n" +
-                  "attack speed: " + currentAttackSpeed + "\n" +
-                  "weapon speed: " + currentWeaponSpeed + "\n" +
-                  "weapon damage: " + currentWeaponDamage);
     }
 }
