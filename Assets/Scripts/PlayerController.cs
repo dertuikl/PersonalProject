@@ -48,6 +48,9 @@ public class PlayerController : MonoBehaviour
                 target.OnKill -= OnKillEnemy;
                 enemiesOnField[0].OnKill += OnKillEnemy;
             }
+            if(target == null) {
+                enemiesOnField[0].OnKill += OnKillEnemy;
+            }
             target = enemiesOnField[0];
         }
     }
@@ -93,7 +96,8 @@ public class PlayerController : MonoBehaviour
     private void OnKillEnemy(Enemy enemy)
     {
         enemy.OnKill -= OnKillEnemy;
-        UserData.SetPlayerScore(enemy.KillScore);
+        //Debug.Log(UserData.Score + " " + enemy.KillScore);
+        UserData.SetPlayerScore(UserData.Score + enemy.KillScore);
     }
 
     public void UpdateAttackSpeed(float multiplier)

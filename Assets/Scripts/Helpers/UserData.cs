@@ -14,7 +14,11 @@ public static class UserData
     public static float WeaponSpeed { get; private set; } = 20f;
     public static float WeaponDamage { get; private set; } = 18f;
 
+    public static bool ShowShootingStats { get; private set; } = true;
+
     public static Action OnUserDataChanged;
+
+    #region Game Section
 
     public static void SetPlayerHealth(int health)
     {
@@ -45,4 +49,12 @@ public static class UserData
         WeaponDamage = weaponDamage;
         OnUserDataChanged?.Invoke();
     }
+
+    #endregion
+
+    #region Settings Section
+
+    public static void ShowShootingStatsToggle() => ShowShootingStats = !ShowShootingStats;
+
+    #endregion
 }
