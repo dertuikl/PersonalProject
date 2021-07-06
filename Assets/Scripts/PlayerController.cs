@@ -10,10 +10,13 @@ public class PlayerController : MonoBehaviour
 
     public Action OnKill;
 
+    [SerializeField] private PlayerTrigger playerTrigger;
+    [SerializeField] private Transform weaponHolder;
     [SerializeField] private Bullet bulletPRefab;
 
     private Enemy target;
     private Pool<Bullet> bulletsPool;
+    private List<Enemy> enemiesInRange = new List<Enemy>();
 
     private int health => UserData.Health;
     private float attackSpeed => UserData.AttackSpeed;
@@ -23,6 +26,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        playerTrigger.OnTriggerContentChanged += (updatedList) => enemiesInRange = updatedList;
         bulletsPool = new Pool<Bullet>(bulletPRefab, Instantiate);
 
         StartCoroutine(ShootCor());
@@ -41,17 +45,18 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateTarget()
     {
-        List<Enemy> enemiesOnField = GameController.Instance.EnemiesOnField;
-        if(enemiesOnField.Count > 0) {
-            enemiesOnField = enemiesOnField.OrderBy(e => Vector3.Distance(e.transform.position, transform.position)).ToList();
-            if (target && target != enemiesOnField[0]) {
+        if(enemiesInRange.Count > 0) {
+            enemiesInRange = enemiesInRange.OrderBy(e => Vector3.Distance(e.transform.position, transform.position)).ToList();
+            if (target && target != enemiesInRange[0]) {
                 target.OnKill -= OnKillEnemy;
-                enemiesOnField[0].OnKill += OnKillEnemy;
+                enemiesInRange[0].OnKill += OnKillEnemy;
             }
             if(target == null) {
-                enemiesOnField[0].OnKill += OnKillEnemy;
+                enemiesInRange[0].OnKill += OnKillEnemy;
             }
-            target = enemiesOnField[0];
+            target = enemiesInRange[0];
+        } else {
+            target = null;
         }
     }
 
@@ -70,10 +75,10 @@ public class PlayerController : MonoBehaviour
     private void Shoot()
     {
         Bullet newBullet = bulletsPool.GetPooledObject();
-        newBullet.gameObject.SetActive(true);
-        newBullet.transform.position = transform.position;
+        newBullet.transform.position = weaponHolder.transform.position;
         newBullet.transform.rotation = transform.rotation;
         newBullet.SetStats(weaponSpeed, weaponDamage);
+        newBullet.gameObject.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -97,7 +102,6 @@ public class PlayerController : MonoBehaviour
     private void OnKillEnemy(Enemy enemy)
     {
         enemy.OnKill -= OnKillEnemy;
-        //Debug.Log(UserData.Score + " " + enemy.KillScore);
         UserData.SetPlayerScore(UserData.Score + enemy.KillScore);
     }
 

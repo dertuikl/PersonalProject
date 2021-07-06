@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private Transform body;
     [SerializeField] private Slider healthSlider;
+    [SerializeField] private new BoxCollider collider;
 
     private float currentHealth;
 
@@ -36,8 +37,13 @@ public class Enemy : MonoBehaviour
 
     private void MoveToPlayer()
     {
-        Vector3 moveDirection = (player.transform.position - transform.position).normalized;
+        Vector3 moveVector = player.transform.position - transform.position;
+        // TODO: how track bullet hit in that case?
+        //collider.enabled = moveVector.magnitude < collider.size.x;
+
+        Vector3 moveDirection = moveVector.normalized;
         transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+
         body.LookAt(player.transform);
     }
 

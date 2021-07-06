@@ -30,8 +30,6 @@ public class SpawnManager : MonoBehaviour
         zBound = GameController.Instance.ViewWorldBounds.y - 2;
 
         enemiesPool = new Pool<Enemy>(enemyPrefab, Instantiate);
-
-        Restart();
     }
 
     public void Restart()
