@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class MenuScreen : MonoBehaviour
 {
@@ -11,7 +14,8 @@ public class MenuScreen : MonoBehaviour
 
     private void OnEnable()
     {
-        continueButton.gameObject.SetActive(true);
+        bool gameIsInProgress = GameController.Instance.GameIsInProgress;
+        continueButton.gameObject.SetActive(gameIsInProgress);
         RefreshTutorialView();
     }
 
@@ -25,6 +29,15 @@ public class MenuScreen : MonoBehaviour
     {
         GameController.Instance.GameIsActive = true;
         GameManager.Instance.OpenGameScreen();
+    }
+
+    public void OnClickExit()
+    {
+#if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+#else
+        Application.Quit();
+#endif
     }
 
     private void RefreshTutorialView()

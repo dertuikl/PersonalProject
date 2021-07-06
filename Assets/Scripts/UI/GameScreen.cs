@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GameScreen : MonoBehaviour
 {
+    [SerializeField] private GameFinishedView gameFinishedView;
     [SerializeField] private List<StatView> statsViews = new List<StatView>();
 
     private void OnEnable()
@@ -28,6 +29,16 @@ public class GameScreen : MonoBehaviour
     {
         GameController.Instance.GameIsActive = false;
         GameManager.Instance.OpenPauseScreen();
+    }
+
+    public void SetGameOverState()
+    {
+        gameFinishedView.State = GameFinishedView.GameFinishState.Lose;
+    }
+
+    public void SetGameWonState()
+    {
+        gameFinishedView.State = GameFinishedView.GameFinishState.Win;
     }
 }
 

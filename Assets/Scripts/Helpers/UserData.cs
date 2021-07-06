@@ -63,6 +63,8 @@ public static class UserData
         AttackSpeed = 20f;
         WeaponSpeed = 20f;
         WeaponDamage = 18f;
+
+        OnUserDataChanged?.Invoke();
     }
 
     #endregion

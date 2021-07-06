@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
-        ChangeScreen(gameScreen);
+        ChangeScreen(menuScreen);
     }
 
     public void OpenGameScreen()
@@ -40,16 +40,6 @@ public class GameManager : MonoBehaviour
     public void ShowTutorialScreen()
     {
         Debug.Log("Show tutorial screen");
-    }
-
-    public void ShowGameOverScreen()
-    {
-        Debug.Log("Show game over screen");
-    }
-
-    public void ShowGameWonScreen()
-    {
-        Debug.Log("Show game won screen");
     }
 
     private void ChangeScreen(GameObject screen)

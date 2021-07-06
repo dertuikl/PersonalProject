@@ -22,6 +22,7 @@ public class SpawnManager : MonoBehaviour
     private bool skipFirstSpawn;
 
     public List<Enemy> Enemies { get; private set; } = new List<Enemy>();
+    private Enemy boss;
 
     private void Start()
     {
@@ -39,6 +40,9 @@ public class SpawnManager : MonoBehaviour
         skipFirstSpawn = false;
         enemiesPool.DisableAllObjects();
         Enemies.Clear();
+        if (boss != null) {
+            Destroy(boss);
+        }
         // TODO: replace with powerups pool
         FindObjectsOfType<Powerup>().ToList().ForEach(p => Destroy(p.gameObject));
 
@@ -72,7 +76,7 @@ public class SpawnManager : MonoBehaviour
 
     private void SpawnBoss()
     {
-        Enemy boss = Instantiate(bossPrefab, GetRandomPosition(), bossPrefab.transform.rotation);
+        boss = Instantiate(bossPrefab, GetRandomPosition(), bossPrefab.transform.rotation);
         boss.OnKill += GameController.Instance.GameWon;
         Enemies.Add(boss);
     }
