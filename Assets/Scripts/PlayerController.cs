@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // ABSTRACTION
     private void Shoot()
     {
         Bullet newBullet = bulletsPool.GetPooledObject();

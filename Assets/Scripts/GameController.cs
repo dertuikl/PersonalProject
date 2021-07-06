@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameScreen gameScreen;
     [SerializeField] private PlayerController playerPrefab;
 
+    // ENCAPSULATION
     public PlayerController Player { get; private set; }
     public List<Enemy> EnemiesOnField => spawnManager.Enemies;
 
