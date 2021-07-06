@@ -43,15 +43,14 @@ public class Enemy : MonoBehaviour
 
     public void Hit(float points)
     {
-        //Debug.Log("hit: " + points);
         if (points > 0) {
             currentHealth -= points;
             UpdateHealthSlider();
         }
 
         if(currentHealth <= 0) {
-            OnKill?.Invoke(this);
             gameObject.SetActive(false);
+            OnKill?.Invoke(this);
         }
     }
 

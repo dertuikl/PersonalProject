@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private float enemiesSpawnDelay = 3.0f;
     [SerializeField] private float powerupsSpawnDelay = 5.0f;
+    [SerializeField] private float startPowerupsSpawnDelay = 2.0f;
 
     [SerializeField] private Enemy enemyPrefab;
     [SerializeField] private Enemy bossPrefab;
@@ -20,6 +22,7 @@ public class SpawnManager : MonoBehaviour
     private bool skipFirstSpawn;
 
     public List<Enemy> Enemies { get; private set; } = new List<Enemy>();
+    private Enemy boss;
 
     private void Start()
     {
@@ -28,7 +31,22 @@ public class SpawnManager : MonoBehaviour
 
         enemiesPool = new Pool<Enemy>(enemyPrefab, Instantiate);
 
+        Restart();
+    }
+
+    public void Restart()
+    {
         isBossWave = false;
+        skipFirstSpawn = false;
+        enemiesPool.DisableAllObjects();
+        Enemies.Clear();
+        if (boss != null) {
+            Destroy(boss);
+        }
+        // TODO: replace with powerups pool
+        FindObjectsOfType<Powerup>().ToList().ForEach(p => Destroy(p.gameObject));
+
+        StopAllCoroutines();
 
         StartCoroutine(SpawnEnemies());
         StartCoroutine(SpawnPowerups());
@@ -58,15 +76,16 @@ public class SpawnManager : MonoBehaviour
 
     private void SpawnBoss()
     {
-        Enemy boss = Instantiate(bossPrefab, GetRandomPosition(), bossPrefab.transform.rotation);
+        boss = Instantiate(bossPrefab, GetRandomPosition(), bossPrefab.transform.rotation);
         boss.OnKill += GameController.Instance.GameWon;
         Enemies.Add(boss);
     }
 
     private IEnumerator SpawnPowerups()
     {
-        while (true)
-        {
+        yield return new WaitForSeconds(startPowerupsSpawnDelay);
+
+        while (true) {
             int index = Random.Range(0, powerupPrefabs.Count);
 
             if (GameController.Instance.GameIsActive) {

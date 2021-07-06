@@ -7,14 +7,14 @@ public class GameController : MonoBehaviour
     public static GameController Instance;
 
     public bool GameIsActive;
+    public bool GameIsInProgress { get; private set; }
     public Vector2 ViewWorldBounds { get; private set; }
 
-    [SerializeField] private PlayerController playerPRefab;
+    [SerializeField] private SpawnManager spawnManager;
+    [SerializeField] private GameScreen gameScreen;
+    [SerializeField] private PlayerController playerPrefab;
 
-    private PlayerController player;
-    private SpawnManager spawnManager;
-
-    public PlayerController Player => player;
+    public PlayerController Player { get; private set; }
     public List<Enemy> EnemiesOnField => spawnManager.Enemies;
 
     private void Awake()
@@ -23,21 +23,26 @@ public class GameController : MonoBehaviour
             Instance = this;
         }
 
-        spawnManager = FindObjectOfType<SpawnManager>();
-
         CalculateViewWorldBounds();
     }
 
-    private void Start()
+    public void RestartGame()
     {
+        if (Player) {
+            Destroy(Player.gameObject);
+            Player = null;
+        }
+        spawnManager.Restart();
+        UserData.ResetCurrentGameData();
         StartGame();
     }
 
     private void StartGame()
     {
-        player = Instantiate(playerPRefab);
-        player.OnKill += GameOver;
+        Player = Instantiate(playerPrefab);
+        Player.OnKill += GameOver;
         GameIsActive = true;
+        GameIsInProgress = true;
     }
 
     private void CalculateViewWorldBounds()
@@ -49,13 +54,18 @@ public class GameController : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("Game Over!");
+        Player.OnKill -= GameOver;
         GameIsActive = false;
+        GameIsInProgress = false;
+
+        gameScreen.SetGameOverState();
     }
 
     public void GameWon(Enemy enemy)
     {
-        Debug.Log("Game Won!");
         GameIsActive = false;
+        GameIsInProgress = false;
+
+        gameScreen.SetGameWonState();
     }
 }
