@@ -24,13 +24,15 @@ public class PlayerTrigger : MonoBehaviour
         Enemy enemy = other.GetComponent<Enemy>();
         if(enemy && enemiesInRange.Contains(enemy)) {
             enemiesInRange.Remove(enemy);
-            enemy.OnKill -= RemoveKilledEnemy;
             OnTriggerContentChanged?.Invoke(enemiesInRange);
         }
     }
 
     private void RemoveKilledEnemy(Enemy enemy)
     {
+        enemy.OnKill -= RemoveKilledEnemy;
+
         enemiesInRange.Remove(enemy);
+        OnTriggerContentChanged?.Invoke(enemiesInRange);
     }
 }
