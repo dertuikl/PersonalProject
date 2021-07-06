@@ -11,25 +11,15 @@ public class PlayerController : MonoBehaviour
     public Action OnKill;
 
     [SerializeField] private PlayerTrigger playerTrigger;
-    [SerializeField] private Transform weaponHolder;
-    [SerializeField] private Bullet bulletPRefab;
 
     private Enemy target;
-    private Pool<Bullet> bulletsPool;
     private List<Enemy> enemiesInRange = new List<Enemy>();
 
     private int health => UserData.Health;
-    private float attackSpeed => UserData.AttackSpeed;
-    private float weaponSpeed => UserData.WeaponSpeed;
-    private float weaponDamage => UserData.WeaponDamage;
-    private float shootDelay => 10 / attackSpeed;
 
     private void Start()
     {
         playerTrigger.OnTriggerContentChanged += (updatedList) => enemiesInRange = updatedList;
-        bulletsPool = new Pool<Bullet>(bulletPRefab, Instantiate);
-
-        StartCoroutine(ShootCor());
     }
 
     private void Update()
@@ -60,27 +50,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator ShootCor()
-    {
-        while (true) {
-            if (IsShooting && GameController.Instance.GameIsActive) {
-                Shoot();
-            }
-
-            yield return new WaitForSeconds(shootDelay);
-        }
-    }
-
-    // ABSTRACTION
-    private void Shoot()
-    {
-        Bullet newBullet = bulletsPool.GetPooledObject();
-        newBullet.transform.position = weaponHolder.transform.position;
-        newBullet.transform.rotation = transform.rotation;
-        newBullet.SetStats(weaponSpeed, weaponDamage);
-        newBullet.gameObject.SetActive(true);
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Enemy>()) {
@@ -108,21 +77,21 @@ public class PlayerController : MonoBehaviour
     public void UpdateAttackSpeed(float multiplier)
     {
         if(multiplier > 0) {
-            UserData.SetAttackSpeed(attackSpeed * multiplier);
+            UserData.SetAttackSpeed(UserData.AttackSpeed * multiplier);
         }
     }
 
     public void UpdateWeaponSpeed(float multiplier)
     {
         if (multiplier > 0) {
-            UserData.SetWeaponSpeed(weaponSpeed * multiplier);
+            UserData.SetWeaponSpeed(UserData.WeaponSpeed * multiplier);
         }
     }
 
     public void UpdateWeaponDamage(float multiplier)
     {
         if (multiplier > 0) {
-            UserData.SetWeaponDamage(weaponDamage * multiplier);
+            UserData.SetWeaponDamage(UserData.WeaponDamage * multiplier);
         }
     }
 }
