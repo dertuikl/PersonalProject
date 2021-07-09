@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 moveVector = new Vector3(horizontalInput, 0, verticalInput);
-        controller.Move(moveVector * speed * Time.deltaTime);
+        controller.Move(moveVector.normalized * speed * Time.deltaTime);
 
         if (!playerController.IsShooting) {
             float rotationAngle = Vector3.Angle(Vector3.forward, moveVector);
