@@ -55,6 +55,7 @@ public class Enemy : MonoBehaviour
     {
         if (useAgentToMove) {
             agent.SetDestination(player.transform.position);
+            agent.isStopped = false;
         } else {
             Vector3 moveVector = player.transform.position - transform.position;
             // TODO: how track bullet hit in that case?

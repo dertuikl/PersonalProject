@@ -40,6 +40,13 @@ public class GameScreen : MonoBehaviour
     {
         gameFinishedView.State = GameFinishedView.GameFinishState.Win;
     }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (!focus) {
+            OnClickPauseButton();
+        }
+    }
 }
 
 public abstract class StatView : MonoBehaviour
