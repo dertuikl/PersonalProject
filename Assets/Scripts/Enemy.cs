@@ -11,22 +11,22 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private bool useAgentToMove = true;
 
-    [SerializeField] private float moveSpeed;
+    [SerializeField] protected float moveSpeed;
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int killScore = 1;
 
-    [SerializeField] private NavMeshAgent agent;
+    [SerializeField] protected NavMeshAgent agent;
 
-    [SerializeField] private Transform body;
+    [SerializeField] protected Transform body;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private new BoxCollider collider;
 
     private float currentHealth;
 
     public int KillScore => killScore;
-    private PlayerController player;// => GameController.Instance.Player;
+    protected PlayerController player;// => GameController.Instance.Player;
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         currentHealth = maxHealth;
         healthSlider.maxValue = maxHealth;
@@ -46,12 +46,12 @@ public class Enemy : MonoBehaviour
     {
         if (player && GameController.Instance.GameIsActive) {
             MoveToPlayer();
-        } else {
+        } else if(useAgentToMove) {
             agent.isStopped = true;
         }
     }
 
-    private void MoveToPlayer()
+    protected virtual void MoveToPlayer()
     {
         if (useAgentToMove) {
             agent.SetDestination(player.transform.position);
@@ -63,9 +63,8 @@ public class Enemy : MonoBehaviour
 
             Vector3 moveDirection = moveVector.normalized;
             transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+            body.LookAt(player.transform);
         }
-
-        body.LookAt(player.transform);
     }
 
     public void Hit(float points)
