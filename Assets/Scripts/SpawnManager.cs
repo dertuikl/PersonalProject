@@ -43,6 +43,7 @@ public class SpawnManager : MonoBehaviour
         isBossWave = false;
         skipFirstSpawn = false;
         enemiesPool.DisableAllObjects();
+        enemiesKamikadzePool.DisableAllObjects();
         Enemies.Clear();
         if (boss != null) {
             Destroy(boss);
