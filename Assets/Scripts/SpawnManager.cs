@@ -81,7 +81,9 @@ public class SpawnManager : MonoBehaviour
 
     private Enemy GetRandomEnemy()
     {
-        kamikadzeProbalility = Enemies.Count / 10.0f;
+        if(kamikadzeProbalility < 0.5f) {
+            kamikadzeProbalility = Enemies.Count / 10.0f;
+        }
 
         int index = Random.Range(0.0f, 1.0f) > kamikadzeProbalility ? 0 : 1;
         return index == 0 ? enemiesPool.GetPooledObject() : enemiesKamikadzePool.GetPooledObject();

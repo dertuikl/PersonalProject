@@ -15,6 +15,11 @@ public class EnemyKamikaze : Enemy
         StartCoroutine(ChargeCycle());
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
     protected override void MoveToPlayer()
     {
         agent.isStopped = !isCharged;

@@ -11,20 +11,29 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private bool useAgentToMove = true;
 
-    [SerializeField] protected float moveSpeed;
+    [SerializeField] private float moveSpeed;
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int killScore = 1;
 
     [SerializeField] protected NavMeshAgent agent;
 
-    [SerializeField] protected Transform body;
+    [SerializeField] private Transform body;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private new BoxCollider collider;
 
     private float currentHealth;
+    private float xBound;
+    private float zBound;
 
     public int KillScore => killScore;
     protected PlayerController player;// => GameController.Instance.Player;
+    private float objectWidth => collider.size.z * 2;
+
+    private void Start()
+    {
+        xBound = GameController.Instance.ViewWorldBounds.x - objectWidth;
+        zBound = GameController.Instance.ViewWorldBounds.y - objectWidth;
+    }
 
     protected virtual void OnEnable()
     {
@@ -49,6 +58,8 @@ public class Enemy : MonoBehaviour
         } else if(useAgentToMove) {
             agent.isStopped = true;
         }
+
+        ConstrainPosition();
     }
 
     protected virtual void MoveToPlayer()
@@ -84,5 +95,12 @@ public class Enemy : MonoBehaviour
     {
         healthSlider.value = currentHealth;
         healthSlider.fillRect.GetComponent<Image>().color = Color.Lerp(Color.red, Color.green, currentHealth / maxHealth);
+    }
+
+    private void ConstrainPosition()
+    {
+        float xPosCalculated = Mathf.Clamp(transform.position.x, -xBound, xBound);
+        float zPosCalculated = Mathf.Clamp(transform.position.z, -zBound, zBound);
+        transform.position = new Vector3(xPosCalculated, transform.position.y, zPosCalculated);
     }
 }
