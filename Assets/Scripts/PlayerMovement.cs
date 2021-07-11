@@ -26,8 +26,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        MovePlayer();
-        ConstrainPlayerPosition();
+        if (GameController.Instance.GameIsActive) {
+            MovePlayer();
+            ConstrainPlayerPosition();
+        }
     }
 
     private void MovePlayer()
