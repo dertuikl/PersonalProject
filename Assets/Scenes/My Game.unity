@@ -6176,6 +6176,8 @@ MonoBehaviour:
   startPowerupsSpawnDelay: 2
   enemyPrefab: {fileID: 7754589790443064974, guid: 622a4b788be824e098f9bfac9dfb3ae8,
     type: 3}
+  enemyKamikazePrefab: {fileID: 5886449588231475997, guid: 0b4e9c1afa9204af3b63d289c26da864,
+    type: 3}
   bossPrefab: {fileID: 7754589790443064974, guid: 54d78aea542b8485fa138e1bf266c81f,
     type: 3}
   powerupPrefabs:

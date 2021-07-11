@@ -10,6 +10,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float startPowerupsSpawnDelay = 2.0f;
 
     [SerializeField] private Enemy enemyPrefab;
+    // TODO: add pool manager or smth to have an opportunity to hold different types on enemies
+    [SerializeField] private EnemyKamikaze enemyKamikazePrefab;
     [SerializeField] private Enemy bossPrefab;
     [SerializeField] private List<Powerup> powerupPrefabs;
 
@@ -17,6 +19,7 @@ public class SpawnManager : MonoBehaviour
     private float zBound;
 
     private Pool<Enemy> enemiesPool;
+    private Pool<EnemyKamikaze> enemiesKamikadzePool;
 
     private bool isBossWave;
     private bool skipFirstSpawn;
@@ -24,12 +27,15 @@ public class SpawnManager : MonoBehaviour
     public List<Enemy> Enemies { get; private set; } = new List<Enemy>();
     private Enemy boss;
 
+    private float kamikadzeProbalility = 0.0f;
+
     private void Start()
     {
         xBound = GameController.Instance.ViewWorldBounds.x - 2;
         zBound = GameController.Instance.ViewWorldBounds.y - 2;
 
         enemiesPool = new Pool<Enemy>(enemyPrefab, Instantiate);
+        enemiesKamikadzePool = new Pool<EnemyKamikaze>(enemyKamikazePrefab, Instantiate);
     }
 
     public void Restart()
@@ -58,7 +64,7 @@ public class SpawnManager : MonoBehaviour
                     isBossWave = true;
                     SpawnBoss();
                 } else {
-                    Enemy enemy = enemiesPool.GetPooledObject();
+                    Enemy enemy = GetRandomEnemy();
                     enemy.gameObject.SetActive(true);
                     enemy.transform.position = GetRandomPosition();
                     enemy.OnKill += OnKillEnemy;
@@ -70,6 +76,14 @@ public class SpawnManager : MonoBehaviour
 
             yield return new WaitForSeconds(enemiesSpawnDelay);
         }
+    }
+
+    private Enemy GetRandomEnemy()
+    {
+        kamikadzeProbalility = Enemies.Count / 10.0f;
+
+        int index = Random.Range(0.0f, 1.0f) > kamikadzeProbalility ? 0 : 1;
+        return index == 0 ? enemiesPool.GetPooledObject() : enemiesKamikadzePool.GetPooledObject();
     }
 
     private void SpawnBoss()
