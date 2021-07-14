@@ -123,13 +123,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db68ef4b17e948d787e7cf932efef7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useAgentToMove: 1
   moveSpeed: 7.5
   maxHealth: 1000
   killScore: 100
   agent: {fileID: 5776689591498645001}
   body: {fileID: 3850327965890605789}
   healthSlider: {fileID: 8933265932613190565}
-  collider: {fileID: 0}
+  collider: {fileID: 425357695813136912}
 --- !u!65 &425357695813136912
 BoxCollider:
   m_ObjectHideFlags: 0

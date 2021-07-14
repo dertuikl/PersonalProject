@@ -6591,6 +6591,7 @@ GameObject:
   - component: {fileID: 1931354008}
   - component: {fileID: 1931354007}
   - component: {fileID: 1931354006}
+  - component: {fileID: 1931354009}
   m_Layer: 0
   m_Name: SpawnManager
   m_TagString: Untagged
@@ -6630,12 +6631,9 @@ MonoBehaviour:
   enemiesSpawnDelay: 2
   powerupsSpawnDelay: 15
   startPowerupsSpawnDelay: 2
-  enemyPrefab: {fileID: 7754589790443064974, guid: 622a4b788be824e098f9bfac9dfb3ae8,
-    type: 3}
-  enemyKamikazePrefab: {fileID: 5886449588231475997, guid: 0b4e9c1afa9204af3b63d289c26da864,
-    type: 3}
   bossPrefab: {fileID: 7754589790443064974, guid: 54d78aea542b8485fa138e1bf266c81f,
     type: 3}
+  enemyPool: {fileID: 1931354009}
   powerupPool: {fileID: 1931354006}
 --- !u!4 &1931354008
 Transform:
@@ -6651,6 +6649,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1931354009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931354005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52baec53083a14aba86f9aa8e921d88c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemiesPrefabs:
+  - {fileID: 7754589790443064974, guid: 622a4b788be824e098f9bfac9dfb3ae8, type: 3}
+  - {fileID: 5886449588231475997, guid: 0b4e9c1afa9204af3b63d289c26da864, type: 3}
 --- !u!1 &1952758603
 GameObject:
   m_ObjectHideFlags: 0

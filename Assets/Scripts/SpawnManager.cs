@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -9,43 +7,29 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float powerupsSpawnDelay = 5.0f;
     [SerializeField] private float startPowerupsSpawnDelay = 2.0f;
 
-    [SerializeField] private Enemy enemyPrefab;
-    // TODO: add pool manager or smth to have an opportunity to hold different types on enemies
-    [SerializeField] private EnemyKamikaze enemyKamikazePrefab;
     [SerializeField] private Enemy bossPrefab;
 
+    [SerializeField] private EnemyPoolManager enemyPool;
     [SerializeField] private PowerupPoolManager powerupPool;
 
     private float xBound;
     private float zBound;
-
-    private Pool<Enemy> enemiesPool;
-    private Pool<EnemyKamikaze> enemiesKamikadzePool;
-
     private bool isBossWave;
     private bool skipFirstSpawn;
 
-    public List<Enemy> Enemies { get; private set; } = new List<Enemy>();
     private Enemy boss;
-
-    private float kamikadzeProbalility = 0.0f;
 
     private void Start()
     {
         xBound = GameController.Instance.ViewWorldBounds.x - 2;
         zBound = GameController.Instance.ViewWorldBounds.y - 2;
-
-        enemiesPool = new Pool<Enemy>(enemyPrefab, Instantiate);
-        enemiesKamikadzePool = new Pool<EnemyKamikaze>(enemyKamikazePrefab, Instantiate);
     }
 
     public void Restart()
     {
         isBossWave = false;
         skipFirstSpawn = false;
-        enemiesPool.DisableAllObjects();
-        enemiesKamikadzePool.DisableAllObjects();
-        Enemies.Clear();
+        enemyPool.DisableAllObjects();
         if (boss != null) {
             Destroy(boss);
         }
@@ -61,14 +45,12 @@ public class SpawnManager : MonoBehaviour
     {
         while (true) {
             if (GameController.Instance.GameIsActive && !isBossWave) {
-                if (Enemies.Count == 0 && skipFirstSpawn) {
+                if (enemyPool.ActiveEnemiesCount == 0 && skipFirstSpawn) {
                     isBossWave = true;
                     SpawnBoss();
                 } else {
-                    Enemy enemy = GetRandomEnemy();
+                    Enemy enemy = enemyPool.GetObject();
                     PreparePoolObject(enemy.gameObject);
-                    enemy.OnKill += OnKillEnemy;
-                    Enemies.Add(enemy);
 
                     skipFirstSpawn = true;
                 }
@@ -78,21 +60,10 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    private Enemy GetRandomEnemy()
-    {
-        if(kamikadzeProbalility < 0.5f) {
-            kamikadzeProbalility = Enemies.Count / 10.0f;
-        }
-
-        int index = Random.Range(0.0f, 1.0f) > kamikadzeProbalility ? 0 : 1;
-        return index == 0 ? enemiesPool.GetPooledObject() : enemiesKamikadzePool.GetPooledObject();
-    }
-
     private void SpawnBoss()
     {
         boss = Instantiate(bossPrefab, GetRandomPosition(), bossPrefab.transform.rotation);
         boss.OnKill += GameController.Instance.GameWon;
-        Enemies.Add(boss);
     }
 
     private IEnumerator SpawnPowerups()
@@ -114,12 +85,6 @@ public class SpawnManager : MonoBehaviour
         float xPosition = Random.Range(-xBound, xBound);
         float zPosition = Random.Range(-zBound, zBound);
         return new Vector3(xPosition, 0.5f, zPosition);
-    }
-
-    private void OnKillEnemy(Enemy enemy)
-    {
-        enemy.OnKill -= OnKillEnemy;
-        Enemies.Remove(enemy);
     }
 
     private void PreparePoolObject(GameObject poolObject)

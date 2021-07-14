@@ -16,7 +16,6 @@ public class GameController : MonoBehaviour
 
     // ENCAPSULATION
     public PlayerController Player { get; private set; }
-    public List<Enemy> EnemiesOnField => spawnManager.Enemies;
 
     private void Awake()
     {

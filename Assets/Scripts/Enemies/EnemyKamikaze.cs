@@ -30,8 +30,10 @@ public class EnemyKamikaze : Enemy
         while (true) {
             yield return new WaitForSeconds(chargeTime);
 
-            isCharged = true;
-            agent.SetDestination(player.transform.position);
+            if (GameController.Instance.GameIsActive) {
+                isCharged = true;
+                agent.SetDestination(player.transform.position);
+            }
 
             yield return new WaitForSeconds(attackTime);
 
