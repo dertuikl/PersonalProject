@@ -9,6 +9,8 @@ public abstract class ObjectsSpawner<T> : MonoBehaviour where T : MonoBehaviour
     [SerializeField] protected float startSpawnDelay;
     [SerializeField] protected float spawnDelay;
 
+    [SerializeField] protected List<T> prefabs;
+
     protected List<Pool<T>> pools = new List<Pool<T>>();
 
     private float xBound;
@@ -18,6 +20,11 @@ public abstract class ObjectsSpawner<T> : MonoBehaviour where T : MonoBehaviour
     {
         xBound = GameController.Instance.ViewWorldBounds.x - 2;
         zBound = GameController.Instance.ViewWorldBounds.y - 2;
+
+        foreach (T prefab in prefabs) {
+            Pool<T> newPool = new Pool<T>(prefab, Instantiate);
+            pools.Add(newPool);
+        }
     }
 
     public void Restart()

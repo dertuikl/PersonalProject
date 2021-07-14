@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class EnemyPoolManager : ObjectsSpawner<Enemy>
 {
-    [SerializeField] private List<Enemy> enemiesPrefabs;
     [SerializeField] private Enemy bossPrefab;
 
     private float kamikadzeProbalility = 0.0f;
@@ -18,16 +17,6 @@ public class EnemyPoolManager : ObjectsSpawner<Enemy>
     private Enemy boss;
 
     public int ActiveEnemiesCount => enemies.Count(e => e.gameObject.activeInHierarchy);
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        foreach (var enemyPrefab in enemiesPrefabs) {
-            Pool<Enemy> newPool = new Pool<Enemy>(enemyPrefab, Instantiate);
-            pools.Add(newPool);
-        }
-    }
 
     public override void StartGame()
     {
