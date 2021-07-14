@@ -17,7 +17,7 @@ public class PauseScreen : MonoBehaviour
 
     public void OnClickMenu()
     {
-        GameManager.Instance.OpenMenuScreen();
+        ScreenManager.Instance.OpenMenuScreen();
     }
 
     public void OnClickRestart()
@@ -29,6 +29,6 @@ public class PauseScreen : MonoBehaviour
     public void OnClickBackToGame()
     {
         GameController.Instance.GameIsActive = true;
-        GameManager.Instance.OpenGameScreen();
+        ScreenManager.Instance.OpenGameScreen();
     }
 }
