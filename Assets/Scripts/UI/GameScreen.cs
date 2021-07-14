@@ -28,7 +28,7 @@ public class GameScreen : MonoBehaviour
     public void OnClickPauseButton()
     {
         GameController.Instance.GameIsActive = false;
-        GameManager.Instance.OpenPauseScreen();
+        ScreenManager.Instance.OpenPauseScreen();
     }
 
     public void SetGameOverState()

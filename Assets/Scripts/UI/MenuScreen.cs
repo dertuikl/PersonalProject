@@ -28,7 +28,7 @@ public class MenuScreen : MonoBehaviour
     public void OnClickContinueButton()
     {
         GameController.Instance.GameIsActive = true;
-        GameManager.Instance.OpenGameScreen();
+        ScreenManager.Instance.OpenGameScreen();
     }
 
     public void OnClickExit()
