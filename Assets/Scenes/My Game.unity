@@ -396,7 +396,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &178733491
 GameObject:
@@ -2824,7 +2824,7 @@ Transform:
   m_LocalScale: {x: 5, y: 1, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &827517708
 GameObject:
@@ -6133,7 +6133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1829684254}
   - component: {fileID: 1829684253}
-  - component: {fileID: 1829684252}
   - component: {fileID: 1829684251}
   m_Layer: 0
   m_Name: GameManager
@@ -6155,36 +6154,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameIsActive: 0
-  spawnManager: {fileID: 1829684252}
+  spawnManager: {fileID: 1931354007}
   gameScreen: {fileID: 1512459366}
   playerPrefab: {fileID: 9088549519073752032, guid: 6dd62a1a4e17e4874b7c71eaf666b7c5,
     type: 3}
---- !u!114 &1829684252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1829684250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30e1a9b62055e44d1b4b391a2734420e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemiesSpawnDelay: 2
-  powerupsSpawnDelay: 15
-  startPowerupsSpawnDelay: 2
-  enemyPrefab: {fileID: 7754589790443064974, guid: 622a4b788be824e098f9bfac9dfb3ae8,
-    type: 3}
-  enemyKamikazePrefab: {fileID: 5886449588231475997, guid: 0b4e9c1afa9204af3b63d289c26da864,
-    type: 3}
-  bossPrefab: {fileID: 7754589790443064974, guid: 54d78aea542b8485fa138e1bf266c81f,
-    type: 3}
-  powerupPrefabs:
-  - {fileID: 3711095184614856766, guid: b4e2621bb1a9b46deaf3f90efe6425d5, type: 3}
-  - {fileID: 3711095184614856766, guid: 928ffabbf795e4920aa69bd5e1a542f6, type: 3}
-  - {fileID: 3711095184614856766, guid: 785def5ce6234488394d612122923659, type: 3}
-  - {fileID: 3711095184614856766, guid: 814d12cd6983548b19daa13e6416a3a8, type: 3}
 --- !u!114 &1829684253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6525,7 +6498,7 @@ RectTransform:
   - {fileID: 1512459365}
   - {fileID: 1618575590}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6607,6 +6580,77 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925949651}
   m_CullTransparentMesh: 0
+--- !u!1 &1931354005
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1931354008}
+  - component: {fileID: 1931354007}
+  - component: {fileID: 1931354006}
+  m_Layer: 0
+  m_Name: SpawnManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1931354006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931354005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dbb5a78f74424a1e8a9d440d2355c61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerupPrefabs:
+  - {fileID: 3711095184614856766, guid: b4e2621bb1a9b46deaf3f90efe6425d5, type: 3}
+  - {fileID: 3711095184614856766, guid: 928ffabbf795e4920aa69bd5e1a542f6, type: 3}
+  - {fileID: 3711095184614856766, guid: 785def5ce6234488394d612122923659, type: 3}
+  - {fileID: 3711095184614856766, guid: 814d12cd6983548b19daa13e6416a3a8, type: 3}
+--- !u!114 &1931354007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931354005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e1a9b62055e44d1b4b391a2734420e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemiesSpawnDelay: 2
+  powerupsSpawnDelay: 15
+  startPowerupsSpawnDelay: 2
+  enemyPrefab: {fileID: 7754589790443064974, guid: 622a4b788be824e098f9bfac9dfb3ae8,
+    type: 3}
+  enemyKamikazePrefab: {fileID: 5886449588231475997, guid: 0b4e9c1afa9204af3b63d289c26da864,
+    type: 3}
+  bossPrefab: {fileID: 7754589790443064974, guid: 54d78aea542b8485fa138e1bf266c81f,
+    type: 3}
+  powerupPool: {fileID: 1931354006}
+--- !u!4 &1931354008
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931354005}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.384072, y: 0.08333333, z: -2.0225554}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1952758603
 GameObject:
   m_ObjectHideFlags: 0

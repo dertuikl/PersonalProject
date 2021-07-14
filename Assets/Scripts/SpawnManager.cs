@@ -13,7 +13,8 @@ public class SpawnManager : MonoBehaviour
     // TODO: add pool manager or smth to have an opportunity to hold different types on enemies
     [SerializeField] private EnemyKamikaze enemyKamikazePrefab;
     [SerializeField] private Enemy bossPrefab;
-    [SerializeField] private List<Powerup> powerupPrefabs;
+
+    [SerializeField] private PowerupPoolManager powerupPool;
 
     private float xBound;
     private float zBound;
@@ -48,8 +49,7 @@ public class SpawnManager : MonoBehaviour
         if (boss != null) {
             Destroy(boss);
         }
-        // TODO: replace with powerups pool
-        FindObjectsOfType<Powerup>().ToList().ForEach(p => Destroy(p.gameObject));
+        powerupPool.DisableAllObjects();
 
         StopAllCoroutines();
 
@@ -66,8 +66,7 @@ public class SpawnManager : MonoBehaviour
                     SpawnBoss();
                 } else {
                     Enemy enemy = GetRandomEnemy();
-                    enemy.gameObject.SetActive(true);
-                    enemy.transform.position = GetRandomPosition();
+                    PreparePoolObject(enemy.gameObject);
                     enemy.OnKill += OnKillEnemy;
                     Enemies.Add(enemy);
 
@@ -101,10 +100,9 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(startPowerupsSpawnDelay);
 
         while (true) {
-            int index = Random.Range(0, powerupPrefabs.Count);
-
             if (GameController.Instance.GameIsActive) {
-                Instantiate(powerupPrefabs[index], GetRandomPosition(), powerupPrefabs[index].transform.rotation);
+                Powerup powerup = powerupPool.GetObject();
+                PreparePoolObject(powerup.gameObject);
             }
 
             yield return new WaitForSeconds(powerupsSpawnDelay);
@@ -122,5 +120,11 @@ public class SpawnManager : MonoBehaviour
     {
         enemy.OnKill -= OnKillEnemy;
         Enemies.Remove(enemy);
+    }
+
+    private void PreparePoolObject(GameObject poolObject)
+    {
+        poolObject.SetActive(true);
+        poolObject.transform.position = GetRandomPosition();
     }
 }
