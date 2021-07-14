@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private new BoxCollider collider;
 
     private float currentHealth;
+    // TODO: create interface
     private float xBound;
     private float zBound;
 

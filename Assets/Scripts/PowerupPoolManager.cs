@@ -1,21 +1,39 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerupPoolManager : MonoBehaviour
+public class PowerupPoolManager : ObjectsSpawner<Powerup>
 {
     [SerializeField] private List<Powerup> powerupPrefabs;
 
-    private List<Pool<Powerup>> pools = new List<Pool<Powerup>>();
-
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         foreach (var powerupPrefab in powerupPrefabs) {
             Pool<Powerup> newPool = new Pool<Powerup>(powerupPrefab, Instantiate);
             pools.Add(newPool);
         }
     }
 
-    public Powerup GetObject() => pools.RandomElement().GetPooledObject();
+    public override void StartGame()
+    {
+        StartCoroutine(SpawnPowerups());
+    }
 
-    public void DisableAllObjects() => pools.ForEach(p => p.DisableAllObjects());
+    private IEnumerator SpawnPowerups()
+    {
+        yield return new WaitForSeconds(startSpawnDelay);
+
+        while (true) {
+            if (GameController.Instance.GameIsActive) {
+                Powerup powerup = GetObject();
+                PreparePoolObject(powerup.gameObject);
+            }
+
+            yield return new WaitForSeconds(spawnDelay);
+        }
+    }
+
+    protected override Powerup GetObject() => pools.RandomElement().GetPooledObject();
 }

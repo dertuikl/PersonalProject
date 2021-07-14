@@ -4839,7 +4839,7 @@ RectTransform:
   - {fileID: 1535371399}
   - {fileID: 398690638}
   m_Father: {fileID: 1921190466}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -5393,7 +5393,7 @@ RectTransform:
   - {fileID: 1704969970}
   - {fileID: 1296578914}
   m_Father: {fileID: 1921190466}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -6170,9 +6170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0794a02da73b54f5e810c8db8b051576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuScreen: {fileID: 2122511280}
-  gameScreen: {fileID: 1512459364}
-  pauseScreen: {fileID: 1618575589}
 --- !u!4 &1829684254
 Transform:
   m_ObjectHideFlags: 0
@@ -6494,6 +6491,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 2019781717}
   - {fileID: 2122511281}
   - {fileID: 1512459365}
   - {fileID: 1618575590}
@@ -6611,6 +6609,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dbb5a78f74424a1e8a9d440d2355c61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startSpawnDelay: 3
+  spawnDelay: 10
   powerupPrefabs:
   - {fileID: 3711095184614856766, guid: b4e2621bb1a9b46deaf3f90efe6425d5, type: 3}
   - {fileID: 3711095184614856766, guid: 928ffabbf795e4920aa69bd5e1a542f6, type: 3}
@@ -6628,11 +6628,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e1a9b62055e44d1b4b391a2734420e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemiesSpawnDelay: 2
-  powerupsSpawnDelay: 15
-  startPowerupsSpawnDelay: 2
-  bossPrefab: {fileID: 7754589790443064974, guid: 54d78aea542b8485fa138e1bf266c81f,
-    type: 3}
   enemyPool: {fileID: 1931354009}
   powerupPool: {fileID: 1931354006}
 --- !u!4 &1931354008
@@ -6661,9 +6656,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52baec53083a14aba86f9aa8e921d88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startSpawnDelay: 0
+  spawnDelay: 1.5
   enemiesPrefabs:
   - {fileID: 7754589790443064974, guid: 622a4b788be824e098f9bfac9dfb3ae8, type: 3}
   - {fileID: 5886449588231475997, guid: 0b4e9c1afa9204af3b63d289c26da864, type: 3}
+  bossPrefab: {fileID: 7754589790443064974, guid: 54d78aea542b8485fa138e1bf266c81f,
+    type: 3}
 --- !u!1 &1952758603
 GameObject:
   m_ObjectHideFlags: 0
@@ -6869,6 +6868,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2006178692}
   m_CullTransparentMesh: 0
+--- !u!1 &2019781716
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2019781717}
+  - component: {fileID: 2019781718}
+  m_Layer: 5
+  m_Name: ScreenManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2019781717
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019781716}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1921190466}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2019781718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019781716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cca58d4f158614895844934eb16306e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuScreen: {fileID: 2122511280}
+  gameScreen: {fileID: 1512459364}
+  pauseScreen: {fileID: 1618575589}
 --- !u!1 &2036973572
 GameObject:
   m_ObjectHideFlags: 0
@@ -7143,7 +7193,7 @@ RectTransform:
   - {fileID: 1773822856}
   - {fileID: 429833231}
   m_Father: {fileID: 1921190466}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
