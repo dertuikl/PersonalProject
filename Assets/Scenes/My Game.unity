@@ -6616,11 +6616,6 @@ MonoBehaviour:
   - {fileID: 3711095184614856766, guid: 928ffabbf795e4920aa69bd5e1a542f6, type: 3}
   - {fileID: 3711095184614856766, guid: 785def5ce6234488394d612122923659, type: 3}
   - {fileID: 3711095184614856766, guid: 814d12cd6983548b19daa13e6416a3a8, type: 3}
-  powerupPrefabs:
-  - {fileID: 3711095184614856766, guid: b4e2621bb1a9b46deaf3f90efe6425d5, type: 3}
-  - {fileID: 3711095184614856766, guid: 928ffabbf795e4920aa69bd5e1a542f6, type: 3}
-  - {fileID: 3711095184614856766, guid: 785def5ce6234488394d612122923659, type: 3}
-  - {fileID: 3711095184614856766, guid: 814d12cd6983548b19daa13e6416a3a8, type: 3}
 --- !u!114 &1931354007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6661,12 +6656,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52baec53083a14aba86f9aa8e921d88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSpawnDelay: 0
-  spawnDelay: 1.5
+  startSpawnDelay: 2
+  spawnDelay: 2
   prefabs:
-  - {fileID: 7754589790443064974, guid: 622a4b788be824e098f9bfac9dfb3ae8, type: 3}
-  - {fileID: 5886449588231475997, guid: 0b4e9c1afa9204af3b63d289c26da864, type: 3}
-  enemiesPrefabs:
   - {fileID: 7754589790443064974, guid: 622a4b788be824e098f9bfac9dfb3ae8, type: 3}
   - {fileID: 5886449588231475997, guid: 0b4e9c1afa9204af3b63d289c26da864, type: 3}
   bossPrefab: {fileID: 7754589790443064974, guid: 54d78aea542b8485fa138e1bf266c81f,

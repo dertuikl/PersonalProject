@@ -30,11 +30,13 @@ public abstract class ObjectsSpawner<T> : MonoBehaviour where T : MonoBehaviour
     public void Restart()
     {
         StopAllCoroutines();
+        DisableAllObjects();
         ResetSpawner();
+
         StartCoroutine(SpawnObjects());
     }
 
-    public virtual void ResetSpawner() { }
+    protected virtual void ResetSpawner() { }
 
     protected virtual IEnumerator SpawnObjects()
     {

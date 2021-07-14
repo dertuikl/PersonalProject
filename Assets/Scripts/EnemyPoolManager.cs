@@ -18,7 +18,7 @@ public class EnemyPoolManager : ObjectsSpawner<Enemy>
 
     public int ActiveEnemiesCount => enemies.Count(e => e.gameObject.activeInHierarchy);
 
-    public override void ResetSpawner()
+    protected override void ResetSpawner()
     {
         isBossWave = false;
         skipFirstSpawn = false;
