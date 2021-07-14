@@ -18,7 +18,7 @@ public class EnemyPoolManager : ObjectsSpawner<Enemy>
 
     public int ActiveEnemiesCount => enemies.Count(e => e.gameObject.activeInHierarchy);
 
-    public override void StartGame()
+    public override void ResetSpawner()
     {
         isBossWave = false;
         skipFirstSpawn = false;
@@ -26,8 +26,21 @@ public class EnemyPoolManager : ObjectsSpawner<Enemy>
         if (boss != null) {
             Destroy(boss);
         }
+    }
 
-        StartCoroutine(SpawnEnemies());
+    protected override void SpawnObject()
+    {
+        if (GameController.Instance.GameIsActive && !isBossWave) {
+            if (ActiveEnemiesCount == 0 && skipFirstSpawn) {
+                isBossWave = true;
+                SpawnBoss();
+            } else {
+                Enemy enemy = GetObject();
+                PreparePoolObject(enemy.gameObject);
+
+                skipFirstSpawn = true;
+            }
+        }
     }
 
     protected override Enemy GetObject()
@@ -43,25 +56,6 @@ public class EnemyPoolManager : ObjectsSpawner<Enemy>
             enemies.Add(enemy);
         }
         return enemy;
-    }
-
-    private IEnumerator SpawnEnemies()
-    {
-        while (true) {
-            if (GameController.Instance.GameIsActive && !isBossWave) {
-                if (ActiveEnemiesCount == 0 && skipFirstSpawn) {
-                    isBossWave = true;
-                    SpawnBoss();
-                } else {
-                    Enemy enemy = GetObject();
-                    PreparePoolObject(enemy.gameObject);
-
-                    skipFirstSpawn = true;
-                }
-            }
-
-            yield return new WaitForSeconds(spawnDelay);
-        }
     }
 
     private void SpawnBoss()

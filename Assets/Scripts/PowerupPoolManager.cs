@@ -4,22 +4,11 @@ using UnityEngine;
 
 public class PowerupPoolManager : ObjectsSpawner<Powerup>
 {
-    public override void StartGame()
+    protected override void SpawnObject()
     {
-        StartCoroutine(SpawnPowerups());
-    }
-
-    private IEnumerator SpawnPowerups()
-    {
-        yield return new WaitForSeconds(startSpawnDelay);
-
-        while (true) {
-            if (GameController.Instance.GameIsActive) {
-                Powerup powerup = GetObject();
-                PreparePoolObject(powerup.gameObject);
-            }
-
-            yield return new WaitForSeconds(spawnDelay);
+        if (GameController.Instance.GameIsActive) {
+            Powerup powerup = GetObject();
+            PreparePoolObject(powerup.gameObject);
         }
     }
 

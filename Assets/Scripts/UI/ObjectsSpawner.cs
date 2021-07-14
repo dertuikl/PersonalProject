@@ -30,10 +30,23 @@ public abstract class ObjectsSpawner<T> : MonoBehaviour where T : MonoBehaviour
     public void Restart()
     {
         StopAllCoroutines();
-        StartGame();
+        ResetSpawner();
+        StartCoroutine(SpawnObjects());
     }
 
-    public abstract void StartGame();
+    public virtual void ResetSpawner() { }
+
+    protected virtual IEnumerator SpawnObjects()
+    {
+        yield return new WaitForSeconds(startSpawnDelay);
+
+        while (true) {
+            SpawnObject();
+            yield return new WaitForSeconds(spawnDelay);
+        }
+    }
+
+    protected abstract void SpawnObject();
 
     protected void PreparePoolObject(GameObject poolObject)
     {
